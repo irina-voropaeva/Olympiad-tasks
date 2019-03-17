@@ -44,7 +44,7 @@ public class Minesweeper {
             }
             stringBuilder.append(new Scanner(System.in).nextLine());
             if(stringBuilder.length() < M) {
-                for (int k = stringBuilder.length(); i < M; k++) {
+                for (int k = stringBuilder.length(); k < M; k++) {
                     stringBuilder.append(".");
                 }
             }
@@ -103,7 +103,6 @@ public class Minesweeper {
     }
 
     private void makeHints(ArrayList<ArrayList<StringBuilder>> fieldsList) {
-        ;
         for (int i = 0; i < fieldsList.size(); i++) {
 
             for (int j = 1; j < fieldsList.get(i).size() - 1; j++) {
