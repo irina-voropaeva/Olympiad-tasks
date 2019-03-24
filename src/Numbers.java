@@ -5,8 +5,7 @@ public class Numbers {
     private HashMap<String, Integer> numbersToLettersMapping;
     private ArrayList<HashMap<Integer, Integer>> duplicatesResults;
     private int datasetNumber;
-    private int linesNumber;
-    private ArrayList<StringBuilder> numbers;
+    private ArrayList<ArrayList<StringBuilder>> numbers;
 
     public Numbers() {
         this.numbersToLettersMapping = new HashMap<>();
@@ -36,6 +35,7 @@ public class Numbers {
         this.numbersToLettersMapping.put("Y", 9);
 
         this.duplicatesResults = new ArrayList<>();
+        this.numbers = new ArrayList<>();
     }
 
     public void start() {
@@ -45,131 +45,136 @@ public class Numbers {
     }
 
     private void enter() {
-        System.out.println("Enter dataset number:");
-        datasetNumber = new Scanner(System.in).nextInt();
-        for (int i = 0; i < datasetNumber; i++) {
-            System.out.println(" ");
-            System.out.println("Enter number of lines: ");
-            linesNumber = new Scanner(System.in).nextInt();
-            if (linesNumber < 0 || linesNumber > 100000) {
-                return;
-            }
-            numbers = new ArrayList<>();
-            for (int j = 0; j < linesNumber; j++) {
-                numbers.add(new StringBuilder(new Scanner(System.in).nextLine()));
-            }
+        int linesNumber;
+            System.out.println("Enter dataset number:");
+            datasetNumber = new Scanner(System.in).nextInt();
+            for (int i = 0; i < datasetNumber; i++) {
+                System.out.println(" ");
+                System.out.println("Enter number of lines: ");
+                linesNumber = new Scanner(System.in).nextInt();
+
+                if (linesNumber < 0 || linesNumber > 100000) {
+                    return;
+                }
+                numbers.add(new ArrayList<>());
+                for (int j = 0; j < linesNumber; j++) {
+                    numbers.get(i).add(new StringBuilder(new Scanner(System.in).nextLine()));
+                }
+
             System.out.println(" ");
         }
     }
 
     private void compare() {
-        ArrayList<StringBuilder> parsedNumber = this.parseAllToNumbers();
+        ArrayList<ArrayList<StringBuilder>> parsedNumbers = this.parseAllToNumbers();
 
         for (int i = 0; i < datasetNumber; i++) {
-            HashMap<Integer, Integer> tempDuplicatesResults = new HashMap<>();
+            duplicatesResults.add(new HashMap<>());
 
-            for (int j = 0; j < parsedNumber.size(); j++) {
-                if (tempDuplicatesResults.containsKey(Integer.parseInt(String.valueOf(parsedNumber.get(j))))) {
-                    int inc = tempDuplicatesResults.get(Integer.parseInt(String.valueOf(parsedNumber.get(j)))) + 1;
-                    tempDuplicatesResults.put(Integer.parseInt(String.valueOf(parsedNumber.get(j))), inc);
-                }
-                else {
-                    tempDuplicatesResults.put(Integer.parseInt(String.valueOf(parsedNumber.get(j))), 1);
-                }
-            }
-            Iterator it = tempDuplicatesResults.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                if (pair.getValue() != null) {
-                    int keyResult = Integer.parseInt(String.valueOf(pair.getValue()));
-                    if (keyResult == 1) {
-                        tempDuplicatesResults.remove(keyResult);
-                        it.remove();
-                    }
+            for (int j = 0; j < parsedNumbers.get(i).size(); j++) {
+
+                StringBuilder number = parsedNumbers.get(i).get(j);
+
+                if (duplicatesResults.get(i).containsKey(Integer.parseInt(String.valueOf(number)))) {
+
+                    int inc = duplicatesResults.get(i).get(Integer.parseInt(String.valueOf(number))) + 1;
+
+                    duplicatesResults.get(i).put(Integer.parseInt(String.valueOf(number)), inc);
+
+                } else {
+                    duplicatesResults.get(i).put(Integer.parseInt(String.valueOf(number)), 1);
                 }
             }
-            duplicatesResults.add(tempDuplicatesResults);
+
         }
     }
 
-    private ArrayList<StringBuilder> parseAllToNumbers() {
-        ArrayList<StringBuilder> parsedNumbers = new ArrayList<>();
-        for (int i = 0; i < this.numbers.size(); i++) {
-            int numbersLength = this.numbers.get(i).length();
-            if (numbersLength != 0) {
-                for (int k = 0; k < numbersLength; k++) {
-                    if (this.numbers.get(i).charAt(k) == '-') {
-                        this.numbers.get(i).deleteCharAt(k);
-                        numbersLength--;
-                    }
-                }
-                StringBuilder tempNumber = new StringBuilder();
+    private ArrayList<ArrayList<StringBuilder>> parseAllToNumbers() {
 
-                for (int j = 0; j < numbers.get(i).length(); j++) {
-                    if (this.isNumeric(String.valueOf(this.numbers.get(i).charAt(j)))) {
-                        tempNumber.append(this.numbers.get(i).charAt(j));
-                    } else {
-                        tempNumber.append(this.numbersToLettersMapping.get(String.valueOf(this.numbers.get(i).charAt(j))));
+        ArrayList<ArrayList<StringBuilder>> parsedNumbers = new ArrayList<>();
+
+        for (int i = 0; i < datasetNumber; i++) {
+
+            parsedNumbers.add(new ArrayList<>());
+
+            int numbersInDatasetSize = this.numbers.get(i).size();
+
+            for (int j = 0; j < numbersInDatasetSize; j++) {
+
+                StringBuilder readString = this.numbers.get(i).get(j);
+
+                StringBuilder tempNumber = new StringBuilder();
+                int numbersInStringSize = this.numbers.get(i).get(j).length();
+
+                for (int k = 0; k < numbersInStringSize; k++) {
+
+                    if (this.isNumeric(String.valueOf(readString.charAt(k)))) {
+                    tempNumber.append(readString.charAt(k));
+
+                    } else if (readString.charAt(k) != '-') {
+                        tempNumber.append(this.numbersToLettersMapping.get(String.valueOf(readString.charAt(k))));
+                        }
                     }
-                }
-                parsedNumbers.add(tempNumber);
+
+                parsedNumbers.get(i).add(tempNumber);
             }
         }
         return parsedNumbers;
     }
 
     private boolean isNumeric(String str) {
-        try
-        {
+        try {
             Integer.parseInt(str);
         }
-        catch(NumberFormatException nfe)
-        {
+        catch(NumberFormatException nfe) {
             return false;
         }
         return true;
     }
 
     private void printResult() {
-        for(int i = 0; i < datasetNumber; i++) {
-            if (duplicatesResults.get(i).size() == 0) {
-                System.out.println("No duplicates.");
-                break;
-            }
-            ArrayList<String> resultDatasetString = this.makeArrayList(i);
 
-            Collections.sort(resultDatasetString);
-            /*for (int j = 0; j < resultDatasetString.size(); j++) {
-                System.out.println(resultDatasetString.get(j));
-            }*/
+        for (int i = 0; i < datasetNumber; i++) {
+
+            if (duplicatesResults.get(i).size() == 0) {
+
+                System.out.println("No duplicates.");
+                continue;
+
+            }
+
+            ArrayList<ArrayList<String>> resultDatasetString = new ArrayList<>();
+
+            resultDatasetString.add(this.makeArrayList(i));
+
+            Collections.sort(resultDatasetString.get(0));
+
+            for (int j = 0; j < resultDatasetString.get(0).size(); j++) {
+                System.out.println(resultDatasetString.get(0).get(j));
+
+            }
+
             System.out.println(" ");
         }
     }
 
     private ArrayList<String> makeArrayList(int i) {
         ArrayList<String> resultList = new ArrayList<>();
-        for (int j = 0; j < duplicatesResults.get(i).size(); j++) {
 
-            Iterator it = duplicatesResults.get(i).entrySet().iterator();
-
-            while (it.hasNext()) {
-                HashMap.Entry pair = (HashMap.Entry) it.next();
-                if (pair.getValue() != null) {
-                    int keyResult = Integer.parseInt(String.valueOf(pair.getKey()));
-                    String result = this.addHyphen(keyResult) + " " + duplicatesResults.get(i).get(keyResult);
-                    resultList.add(result);
-                }
+        for (Map.Entry<Integer, Integer> entry : duplicatesResults.get(i).entrySet()) {
+            if (entry.getValue() != 1) {
+                String result = this.addHyphen(String.valueOf(entry.getKey())) + " " + entry.getValue();
+                resultList.add(result);
             }
-        }
-        System.out.println("result dataset string size: " + resultList.size());
-        for (int j = 0; j < resultList.size(); j++) {
-            System.out.println(resultList.get(j));
+
         }
         return resultList;
     }
 
-    private String addHyphen(int key) {
-        String stringKey = Integer.toString(key);
-        return stringKey.substring(0,3) + "-" + stringKey.substring(3,7);
+    private String addHyphen(String key) {
+
+        return key.substring(0, 3) + "-" + key.substring(3);
+
     }
+
 }

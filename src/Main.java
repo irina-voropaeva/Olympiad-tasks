@@ -4,7 +4,7 @@ public class Main {
         /*Minesweeper minesweeper = new Minesweeper();
         minesweeper.playGame();*/
 
-        Numbers numbers = new Numbers();
-        numbers.start();
+        /* Numbers numbers = new Numbers();
+        numbers.start(); */
     }
 }
