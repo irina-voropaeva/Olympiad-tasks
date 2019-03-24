@@ -58,6 +58,7 @@ public class Numbers {
                 }
                 numbers.add(new ArrayList<>());
                 for (int j = 0; j < linesNumber; j++) {
+                    System.out.println("Enter number " + j);
                     numbers.get(i).add(new StringBuilder(new Scanner(System.in).nextLine()));
                 }
 
