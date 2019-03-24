@@ -94,7 +94,6 @@ public class Minesweeper {
             for (int j = 0; j < fieldsList.get(i).size(); j++) {
                 for (int k = 0; k < fieldsList.get(i).get(j).length(); k++) {
                     if (fieldsList.get(i).get(j).charAt(k) != '*') {
-                        //String tempString = "0";
                         fieldsList.get(i).get(j).setCharAt(k, '0');
                     }
                 }
@@ -118,38 +117,38 @@ public class Minesweeper {
                             String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j).substring(k + 1, k + 2))  + 1);
                             fieldsList.get(i).get(j).setCharAt(k + 1, resultPoint.charAt(0));
                         }
-                    //Make ++ for 3 top and 3 bottom neighborhoods
-                    //Make ++ for top neighborhood
-                    if (!String.valueOf(fieldsList.get(i).get(j - 1).charAt(k)).equals("*")) {
+                        //Make ++ for 3 top and 3 bottom neighborhoods
+                        //Make ++ for top neighborhood
+                        if (!String.valueOf(fieldsList.get(i).get(j - 1).charAt(k)).equals("*")) {
                         String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j - 1).substring(k, k + 1))  + 1);
                         fieldsList.get(i).get(j - 1).setCharAt(k, resultPoint.charAt(0));
+                        }
+                        //Make ++ for left top neighborhood
+                        if (!String.valueOf(fieldsList.get(i).get(j - 1).charAt(k - 1)).equals("*")) {
+                            String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j - 1).substring(k - 1, k))  + 1);
+                            fieldsList.get(i).get(j - 1).setCharAt(k - 1, resultPoint.charAt(0));
+                        }
+                        //Make ++ for right top neighborhood
+                        if (!String.valueOf(fieldsList.get(i).get(j - 1).charAt(k + 1)).equals("*")) {
+                            String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j - 1).substring(k + 1, k + 2))  + 1);
+                            fieldsList.get(i).get(j - 1).setCharAt(k + 1, resultPoint.charAt(0));
+                        }
+                        //Make ++ for bottom neighborhood
+                        if  (!String.valueOf(fieldsList.get(i).get(j + 1).charAt(k)).equals("*")) {
+                            String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j + 1).substring(k, k + 1))  + 1);
+                            fieldsList.get(i).get(j + 1).setCharAt(k, resultPoint.charAt(0));
+                        }
+                        //Make ++ for left bottom neighborhood
+                        if (!String.valueOf(fieldsList.get(i).get(j + 1).charAt(k - 1)).equals("*")) {
+                            String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j + 1).substring(k - 1, k)) + 1);
+                            fieldsList.get(i).get(j + 1).setCharAt(k - 1, resultPoint.charAt(0));
+                        }
+                        //Make ++ for right bottom neighborhood
+                        if (!String.valueOf(fieldsList.get(i).get(j + 1).charAt(k + 1)).equals("*")) {
+                            String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j + 1).substring(k + 1, k + 2))  + 1);
+                            fieldsList.get(i).get(j + 1).setCharAt(k + 1,  resultPoint.charAt(0));
+                        }
                     }
-                    //Make ++ for left top neighborhood
-                    if (!String.valueOf(fieldsList.get(i).get(j - 1).charAt(k - 1)).equals("*")) {
-                        String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j - 1).substring(k - 1, k))  + 1);
-                        fieldsList.get(i).get(j - 1).setCharAt(k - 1, resultPoint.charAt(0));
-                    }
-                    //Make ++ for right top neighborhood
-                    if (!String.valueOf(fieldsList.get(i).get(j - 1).charAt(k + 1)).equals("*")) {
-                        String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j - 1).substring(k + 1, k + 2))  + 1);
-                        fieldsList.get(i).get(j - 1).setCharAt(k + 1, resultPoint.charAt(0));
-                    }
-                    //Make ++ for bottom neighborhood
-                    if (!String.valueOf(fieldsList.get(i).get(j + 1).charAt(k)).equals("*")) {
-                        String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j + 1).substring(k, k + 1))  + 1);
-                        fieldsList.get(i).get(j + 1).setCharAt(k, resultPoint.charAt(0));
-                    }
-                    //Make ++ for left bottom neighborhood
-                    if (!String.valueOf(fieldsList.get(i).get(j + 1).charAt(k - 1)).equals("*")) {
-                        String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j + 1).substring(k - 1, k)) + 1);
-                        fieldsList.get(i).get(j + 1).setCharAt(k - 1, resultPoint.charAt(0));
-                    }
-                    //Make ++ for right bottom neighborhood
-                    if (!String.valueOf(fieldsList.get(i).get(j + 1).charAt(k + 1)).equals("*")) {
-                        String resultPoint =  Integer.toString(Integer.parseInt(fieldsList.get(i).get(j + 1).substring(k + 1, k + 2))  + 1);
-                        fieldsList.get(i).get(j + 1).setCharAt(k + 1,  resultPoint.charAt(0));
-                    }
-                }
                 }
             }
         }
