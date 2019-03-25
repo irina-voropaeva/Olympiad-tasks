@@ -38,8 +38,8 @@ public class Clock {
 
     private void solveAngle() {
         for (int i = 0; i < hours.size(); i++) {
-            if (hours == 12) {
-                hours = 0;
+            if (hours.get(i) == 12) {
+                hours.set(i, 0);
             }
             double tempResult = (60*hours.get(i) - 11*minutes.get(i)) / 2.0;
             if (tempResult > 180) {
