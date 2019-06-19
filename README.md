@@ -1,4 +1,4 @@
-# PostIndustria test task
+# Olympiad tasks
 
 ## Minesweeper
 Have you ever played Minesweeper? It’s a cute little game which comes within a certain Operating
